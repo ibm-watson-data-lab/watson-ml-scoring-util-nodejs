@@ -9,14 +9,14 @@ This is a simple Node.js library for calling scoring endpoints on deployed model
 ## Installation
 
 This package can be installed via npm:
-`npm install watson-ml-scoring`
+`npm install watson-ml-scoring-util`
 
 ## Running
 
-After setting up your environment (see below) you can make machine learning predictions with just a few lines of code. First, include the `WatsonMLScoringEndpoint` class from the `watson-ml-scoring` module:
+After setting up your environment (see below) you can make machine learning predictions with just a few lines of code. First, include the `WatsonMLScoringEndpoint` class from the `watson-ml-scoring-util` module:
 
 ```javascript
-const { WatsonMLScoringEndpoint } = require("watson-ml-scoring");
+const { WatsonMLScoringEndpoint } = require("watson-ml-scoring-util");
 ```
 
 Create an instance of the `WatsonMLScoringEndpoint` with the features you used to train your model:
@@ -78,7 +78,7 @@ WML_DEPLOYMENT_ID=
   2. Click _Service Credentials_
   3. Expand your credentials
 
-![Watson ML Service Credentials](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-nodejs/master/readme/img/watson-ml-credentials.png)
+![Watson ML Service Credentials](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-util-nodejs/master/readme/img/watson-ml-credentials.png)
 
 3. Fill in your Model ID and Deployment ID
   1. Go to your model under the Assets in your Data Science Platform or Watson Data Platform account
@@ -86,7 +86,7 @@ WML_DEPLOYMENT_ID=
   3. Click the deployment
   4. Copy and paste the Deployment ID and Model ID values
 
-![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-nodejs/master/readme/img/watson-ml-model-deployment.png)
+![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-util-nodejs/master/readme/img/watson-ml-model-deployment.png)
 
 ### IBM Cloud Environment
 
@@ -95,7 +95,7 @@ WML_DEPLOYMENT_ID=
 ```
 applications:
 - path: .
-  buildpack: sdk-for-nodejs
+  buildpack: sdk-for-util-nodejs
   no-route: false
   memory: 128M
   instances: 1
@@ -119,4 +119,4 @@ env:
   3. Click the deployment
   4. Copy and paste the Deployment ID and Model ID values to the environment variables under *env:*
 
-  ![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-nodejs/master/readme/img/watson-ml-model-deployment.png)
+  ![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-util-nodejs/master/readme/img/watson-ml-model-deployment.png)
