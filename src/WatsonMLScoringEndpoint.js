@@ -1,8 +1,10 @@
+"use strict";
+
 let axios = require('axios');
 let dotenv = require('dotenv');
 dotenv.config();
 
-module.exports = class WatsonMLScoring {
+class WatsonMLScoringEndpoint {
 
   constructor(fields, options) {
     if (! fields) {
@@ -111,3 +113,5 @@ module.exports = class WatsonMLScoring {
       });
   }
 }
+
+exports.WatsonMLScoringEndpoint = WatsonMLScoringEndpoint;

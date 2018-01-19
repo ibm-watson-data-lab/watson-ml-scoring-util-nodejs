@@ -1,24 +1,26 @@
-### NOTE: IN ACTIVE DEVELOPMENT
-
 # Watson Machine Learning Scoring
+
+Note: This is a work in progress. Use exact versions when installing (e.g. --save-exact) as backwards-incompatible changes may be introduced.
 
 ## Overview
 
 This is a simple Node.js library for calling scoring endpoints on deployed models in the Watson Machine Learning service.
 
-## Installing
+## Installation
 
-`npm install --save watson-ml-scoring`
+This package can be installed via npm:
+`npm install watson-ml-scoring`
 
 ## Running
 
 After setting up your environment (see below) making predictions requires just a few lines of code:
 
 ```
-let WatsonMLScoring = require("watson-ml-scoring");
-let endpoint = new WatsonMLScoring(features);
-let features = ['SquareFeet', 'Bedrooms'];
-let values = [2400, 4];
+const { WatsonMLScoringEndpoint } = require("watson-ml-scoring");
+
+const endpoint = new WatsonMLScoringEndpoint(features);
+const features = ['SquareFeet', 'Bedrooms'];
+const values = [2400, 4];
 endpoint.score(values)
     .then(predictions => console.log(predictions))
     .catch(err => console.log(err));
@@ -27,7 +29,7 @@ endpoint.score(values)
 Alternatively, you can pass in the model and deployment IDs. This would be valuable if you plan on testing or working with multiple versions of the same model.
 
 ```
-let endpoint = new WatsonMLScoring(features, {
+let endpoint = new WatsonMLScoringEndpoint(features, {
   modelId: 'xxx',
   deploymentId: 'xxx'
 });
@@ -36,7 +38,7 @@ let endpoint = new WatsonMLScoring(features, {
 Finally, you can pass in everything, including the Watson ML service credentials (or you can selectively choose what features you want to pass in — all others will be read from the environment):
 
 ```
-let endpoint = new WatsonMLScoring(features, {
+let endpoint = new WatsonMLScoringEndpoint(features, {
   servicePath: 'https://ibm-watson-ml.mybluemix.net',
   username: 'xxx',
   password: 'xxx',

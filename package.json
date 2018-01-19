@@ -2,7 +2,7 @@
   "name": "watson-ml-scoring",
   "version": "0.0.1",
   "description": "A simple Node.js client for Watson ML model scoring endpoints",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
