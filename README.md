@@ -1,4 +1,4 @@
-# Watson Machine Learning Scoring
+# Watson Machine Learning Scoring Util
 
 Note: This is a work in progress. Use exact versions when installing (e.g. --save-exact) as backwards-incompatible changes may be introduced.
 
