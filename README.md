@@ -13,31 +13,41 @@ This package can be installed via npm:
 
 ## Running
 
-After setting up your environment (see below) making predictions requires just a few lines of code:
+After setting up your environment (see below) you can make machine learning predictions with just a few lines of code. First, include the `WatsonMLScoringEndpoint` class from the `watson-ml-scoring` module:
 
-```
+```javascript
 const { WatsonMLScoringEndpoint } = require("watson-ml-scoring");
+```
 
-const endpoint = new WatsonMLScoringEndpoint(features);
+Create an instance of the `WatsonMLScoringEndpoint` with the features you used to train your model:
+
+```javascript
 const features = ['SquareFeet', 'Bedrooms'];
+const endpoint = new WatsonMLScoringEndpoint(features);
+```
+
+Make a prediction by calling `score` with the values you would like to use for your prediction:
+
+```javascript
 const values = [2400, 4];
 endpoint.score(values)
-    .then(predictions => console.log(predictions))
-    .catch(err => console.log(err));
+  .then(predictions => console.log(predictions))
+  .catch(err => console.log(err));
 ```
 
-Alternatively, you can pass in the model and deployment IDs. This would be valuable if you plan on testing or working with multiple versions of the same model.
+The `WatsonMLScoringEndpoint` will look in your environment for the appropriate Watson ML credentials, model ID, and deployment ID.
+Alternatively, you can pass in the model ID and deployment IDs. This would be valuable if you plan on testing or working with multiple versions of the same model.
 
-```
+```javascript
 let endpoint = new WatsonMLScoringEndpoint(features, {
   modelId: 'xxx',
   deploymentId: 'xxx'
 });
 ```
 
-Finally, you can pass in everything, including the Watson ML service credentials (or you can selectively choose what features you want to pass in — all others will be read from the environment):
+You can also pass in your Watson ML service credentials (or you can selectively choose what features you want to pass in -- all others will be read from the environment):
 
-```
+```javascript
 let endpoint = new WatsonMLScoringEndpoint(features, {
   servicePath: 'https://ibm-watson-ml.mybluemix.net',
   username: 'xxx',
@@ -48,9 +58,11 @@ let endpoint = new WatsonMLScoringEndpoint(features, {
 });
 ```
 
-## Running Locally
+## Setting up your Environment
 
-Create or modify your `.env` file to include the following:
+### Local Environment
+
+Create a `.env` file in the root of your project and add the following:
 
 ```
 WML_SERVICE_PATH=https://ibm-watson-ml.mybluemix.net
@@ -62,20 +74,23 @@ WML_DEPLOYMENT_ID=
 ```
 
 2. Fill in username, password, and instance ID using the credentials in your IBM Watson Machine Learning service
-  - Go to the service in your IBM Cloud instance
-  - Click _Service Credentials_
-  - Expand your credentials
+  1. Go to the service in your IBM Cloud instance
+  2. Click _Service Credentials_
+  3. Expand your credentials
 
-3. Fill in your model ID and deployment ID
-  - Go to your model under the Assets in your Data Science Platform or Watson Data Platform account
-  - Click the _Deployments_ tab
-  - Click the deployment
-  - Copy and paste the Deployment ID and Model ID values
+![Watson ML Service Credentials](https://raw.githubusercontent.com/ibm-cds-labs/watson-ml-scoring/readme/img/watson-ml-credentials.png)
 
+3. Fill in your Model ID and Deployment ID
+  1. Go to your model under the Assets in your Data Science Platform or Watson Data Platform account
+  2. Click the _Deployments_ tab
+  3. Click the deployment
+  4. Copy and paste the Deployment ID and Model ID values
 
-## Running in IBM Cloud
+![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-cds-labs/watson-ml-scoring/readme/img/watson-ml-model-deployment.png)
 
-1. Create a `manifest.yml` file similar to the following:
+### IBM Cloud Environment
+
+1. Create or modify your `manifest.yml` file. Here is a sample:
 
 ```
 applications:
@@ -96,10 +111,12 @@ env:
 ```
 
 2. Specify the name of your Watson Machine Learning Service
-  - Replace `IBM Watson Machine Learning` under *services:* with the name of the Watson Machine Learning service provisioned in your account
+  1. Replace `IBM Watson Machine Learning` under *services:* with the name of the Watson Machine Learning service provisioned in your account
 
 3. Fill in your model ID and deployment ID
-  - Go to your model under the Assets in your Data Science Platform or Watson Data Platform account
-  - Click the _Deployments_ tab
-  - Click the deployment
-  - Copy and paste the Deployment ID and Model ID values to the environment variables under *env:*
+  1. Go to your model under the Assets in your Data Science Platform or Watson Data Platform account
+  2. Click the _Deployments_ tab
+  3. Click the deployment
+  4. Copy and paste the Deployment ID and Model ID values to the environment variables under *env:*
+
+  ![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-cds-labs/watson-ml-scoring/readme/img/watson-ml-model-deployment.png)
