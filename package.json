@@ -1,5 +1,5 @@
 {
-  "name": "watson-ml-scoring",
+  "name": "watson-ml-scoring-util",
   "version": "0.0.1",
   "description": "A simple Node.js client for Watson ML model scoring endpoints",
   "main": "./src/index.js",

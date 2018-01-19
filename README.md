@@ -78,7 +78,7 @@ WML_DEPLOYMENT_ID=
   2. Click _Service Credentials_
   3. Expand your credentials
 
-![Watson ML Service Credentials](https://raw.githubusercontent.com/ibm-cds-labs/watson-ml-scoring/readme/img/watson-ml-credentials.png)
+![Watson ML Service Credentials](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-nodejs/master/readme/img/watson-ml-credentials.png)
 
 3. Fill in your Model ID and Deployment ID
   1. Go to your model under the Assets in your Data Science Platform or Watson Data Platform account
@@ -86,7 +86,7 @@ WML_DEPLOYMENT_ID=
   3. Click the deployment
   4. Copy and paste the Deployment ID and Model ID values
 
-![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-cds-labs/watson-ml-scoring/readme/img/watson-ml-model-deployment.png)
+![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-nodejs/master/readme/img/watson-ml-model-deployment.png)
 
 ### IBM Cloud Environment
 
@@ -119,4 +119,4 @@ env:
   3. Click the deployment
   4. Copy and paste the Deployment ID and Model ID values to the environment variables under *env:*
 
-  ![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-cds-labs/watson-ml-scoring/readme/img/watson-ml-model-deployment.png)
+  ![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-nodejs/master/readme/img/watson-ml-model-deployment.png)
