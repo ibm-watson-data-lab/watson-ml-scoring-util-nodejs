@@ -11,7 +11,7 @@ This is a simple Node.js wrapper for calling scoring endpoints on deployed model
 This package can be installed via npm:
 `npm install watson-ml-scoring-util`
 
-## Running
+## Usage
 
 After setting up your environment (see below) you can make machine learning predictions with just a few lines of code. First, include the `WatsonMLScoringEndpoint` class from the `watson-ml-scoring-util` module:
 
@@ -58,7 +58,7 @@ let endpoint = new WatsonMLScoringEndpoint(features, {
 });
 ```
 
-## Setting up your Environment
+## Environment Setup
 
 ### Local Environment
 
@@ -73,15 +73,16 @@ WML_MODEL_ID=
 WML_DEPLOYMENT_ID=
 ```
 
-2. Fill in username, password, and instance ID using the credentials in your IBM Watson Machine Learning service:
-  - Go to the service in your IBM Cloud instance
+2. Fill in `WML_USERNAME`, `WML_PASSWORD`, and `WML_INSTANCE_ID`:
+  - Go to your IBM Watson Machine Learning service in your IBM Cloud instance
   - Click _Service Credentials_
   - Expand your credentials
+  - Copy and paste the username, password, and instance_id values
 
 ![Watson ML Service Credentials](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-util-nodejs/master/readme/img/watson-ml-credentials.png)
 
-3. Fill in your Model ID and Deployment ID
-  - Go to your model under the Assets in your Data Science Platform or Watson Data Platform account
+3. Fill in `WML_MODEL_ID` and `WML_DEPLOYMENT_ID`:
+  - Click your model under _Models_ in the _Assets_ tab in your Data Science Platform or Watson Data Platform account
   - Click the _Deployments_ tab
   - Click the deployment
   - Copy and paste the Deployment ID and Model ID values
@@ -113,10 +114,10 @@ env:
 2. Specify the name of your Watson Machine Learning Service
   - Replace `IBM Watson Machine Learning` under *services:* with the name of the Watson Machine Learning service provisioned in your account
 
-3. Fill in your model ID and deployment ID
-  - Go to your model under the Assets in your Data Science Platform or Watson Data Platform account
+3. Fill in `WML_MODEL_ID` and `WML_DEPLOYMENT_ID`:
+  - Click your model under _Models_ in the _Assets_ tab in your Data Science Platform or Watson Data Platform account
   - Click the _Deployments_ tab
   - Click the deployment
-  - Copy and paste the Deployment ID and Model ID values to the environment variables under *env:*
+  - Copy and paste the Deployment ID and Model ID values
 
-  ![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-util-nodejs/master/readme/img/watson-ml-model-deployment.png)
+![Watson ML Model Deployment](https://raw.githubusercontent.com/ibm-watson-data-lab/watson-ml-scoring-util-nodejs/master/readme/img/watson-ml-model-deployment.png)
