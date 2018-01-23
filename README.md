@@ -31,8 +31,8 @@ Make a prediction by calling `score` with the values you would like to use for y
 ```javascript
 const values = [2400, 4];
 endpoint.score(values)
-  .then(predictions => console.log(predictions))
-  .catch(err => console.log(err));
+  .then(console.log)
+  .catch(console.error);
 ```
 
 The `WatsonMLScoringEndpoint` will look in your environment for the appropriate Watson ML credentials, Model ID, and Deployment ID.
