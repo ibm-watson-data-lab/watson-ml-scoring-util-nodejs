@@ -65,8 +65,8 @@ class WatsonMLScoringEndpoint {
 
   score(values) {
     return this.scoreMulti([values])
-      .then((predictions) => {
-        return Promise.resolve(predictions[0])
+      .then((response) => {
+        return Promise.resolve({prediction: response.predictions[0], data: response.data})
       });
   }
 
@@ -101,7 +101,7 @@ class WatsonMLScoringEndpoint {
           for (let i = 0; i < valuesArray.length; i++) {
             predictions[i] = values[i][predictionIndex];
           }
-          return Promise.resolve(predictions, response.data);
+          return Promise.resolve({predictions: predictions, data: response.data});
         }
       }).catch((err) => {
         let errorCode = null;

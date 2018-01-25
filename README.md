@@ -31,7 +31,7 @@ Make a prediction by calling `score` with the values you would like to use for y
 ```javascript
 const values = [2400, 4];
 endpoint.score(values)
-  .then(prediction => console.log(prediction))
+  .then(response => console.log(response.prediction))
   .catch(err => console.log(err));
 ```
 
@@ -40,15 +40,15 @@ You can make multiple predictions in a single call to the scoring endpoint by ca
 ```javascript
 const values = [[2400, 4], [2000, 3], [2600, 6]];
 endpoint.scoreMulti(values)
-  .then(predictions => console.log(predictions))
+  .then(response => console.log(response.predictions))
   .catch(err => console.log(err));
 ```
 
-You can also access the full response from Watson ML:
+You can also access the full response from Watson ML in the `data` property of the response:
 
 ```javascript
 endpoint.score(values)
-  .then((prediction, response) => console.log(response))
+  .then(response => console.log(response.data))
 ```
 
 The `WatsonMLScoringEndpoint` will look in your environment for the appropriate Watson ML credentials, Model ID, and Deployment ID.
