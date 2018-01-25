@@ -88,17 +88,27 @@ class WatsonMLScoringEndpoint {
         });
       }).then((response) => {
         let predictions = [];
-        let values = response.data.values;
-        for (let i = 0; i < valuesArray.length; i++) {
-          predictions[i] = values[i][values[i].length - 1];
+        let predictionIndex = -1;
+        let fields = response.data.fields;
+        for (let i = 0; i < fields.length; i++) {
+          if (fields[i].toLowerCase() === 'prediction') {
+            predictionIndex = i;
+            break;
+          }
         }
-        return Promise.resolve(predictions);
+        if (predictionIndex >= 0) {
+          let values = response.data.values;
+          for (let i = 0; i < valuesArray.length; i++) {
+            predictions[i] = values[i][predictionIndex];
+          }
+          return Promise.resolve(predictions, response.data);
+        }
       }).catch((err) => {
         let errorCode = null;
         if (err.response && err.response.data && err.response.data.code && err.response.data.code) {
           errorCode = err.response.data.code;
         }
-        if (errorCode.indexOf('token') >= 0) {
+        if (errorCode && errorCode.indexOf('token') >= 0) {
           this.tokenFailures++;
           if (this.tokenFailures >= 0) {
             console.log('Too many failed attempts.');
