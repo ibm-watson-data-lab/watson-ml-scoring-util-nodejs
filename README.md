@@ -35,7 +35,7 @@ endpoint.score(values)
   .catch(err => console.log(err));
 ```
 
-Make multiple predictions in a single call to the scoring endpoint by calling `scoreMulti`:
+You can make multiple predictions in a single call to the scoring endpoint by calling `scoreMulti`:
 
 ```javascript
 const values = [[2400, 4], [2000, 3], [2600, 6]];
@@ -52,7 +52,7 @@ endpoint.score(values)
 ```
 
 The `WatsonMLScoringEndpoint` will look in your environment for the appropriate Watson ML credentials, Model ID, and Deployment ID.
-Alternatively, you can pass in the Model ID and Deployment IDs. This would be valuable if you plan on testing or working with multiple versions of the same model.
+Alternatively, you can pass in the Model ID and Deployment IDs. This would be valuable if you plan on testing or working with multiple models, or multiple versions of the same model,.
 
 ```javascript
 let endpoint = new WatsonMLScoringEndpoint(features, {
