@@ -52,7 +52,7 @@ endpoint.score(values)
 ```
 
 The `WatsonMLScoringEndpoint` will look in your environment for the appropriate Watson ML credentials, Model ID, and Deployment ID.
-Alternatively, you can pass in the Model ID and Deployment IDs. This would be valuable if you plan on testing or working with multiple models, or multiple versions of the same model,.
+Alternatively, you can pass in the Model ID and Deployment IDs. This would be valuable if you plan on testing or working with multiple models, or multiple versions of the same model.
 
 ```javascript
 let endpoint = new WatsonMLScoringEndpoint(features, {
