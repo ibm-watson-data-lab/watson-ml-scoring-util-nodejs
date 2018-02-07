@@ -4,6 +4,8 @@ let axios = require('axios');
 let dotenv = require('dotenv');
 dotenv.config();
 
+let TOKEN_MAX_ATTEMPTS = 3;
+
 class WatsonMLScoringEndpoint {
 
   constructor(fields, options) {
@@ -72,6 +74,10 @@ class WatsonMLScoringEndpoint {
 
   scoreMulti(valuesArray) {
     this.tokenFailures = 0;
+    return this.scoreMultiInternal(valuesArray, 0);
+  }
+
+  scoreMultiInternal(valuesArray, attempt) {
     return this.getWatsonMLAccessToken()
       .then((token) => {
         return axios({
@@ -109,16 +115,18 @@ class WatsonMLScoringEndpoint {
           errorCode = err.response.data.code;
         }
         if (errorCode && errorCode.indexOf('token') >= 0) {
-          this.tokenFailures++;
-          if (this.tokenFailures >= 0) {
-            console.log('Too many failed attempts.');
-            throw err;
+          if ((attempt+1) >= TOKEN_MAX_ATTEMPTS) {
+            console.log('Too many token failures.');
+            return Promise.reject(err);
           }
-          this.token = null;
-          return this.scoreMulti(valuesArray);
+          else {
+            console.log('Token failure; attempting to retrieve new token...');
+            this.token = null;
+            return this.scoreMultiInternal(valuesArray, attempt + 1);
+          }
         }
         else {
-          throw err;
+          return Promise.reject(err);
         }
       });
   }
