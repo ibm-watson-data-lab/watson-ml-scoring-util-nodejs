@@ -74,6 +74,24 @@ let endpoint = new WatsonMLScoringEndpoint(features, {
 });
 ```
 
+You can pass in a model name and, optionally, a deployment name in place of modelId and deploymentId.
+The utility will query your Watson ML service for the first model that matches the name and the first deployment (that matches the deployment name if speficied):
+
+```javascript
+let endpoint = new WatsonMLScoringEndpoint(features, {
+  servicePath: 'https://ibm-watson-ml.mybluemix.net',
+  modelName: 'House Prices Model'
+});
+```
+
+```javascript
+let endpoint = new WatsonMLScoringEndpoint(features, {
+  servicePath: 'https://ibm-watson-ml.mybluemix.net',
+  modelName: 'House Prices Model',
+  deploymentName: 'House Prices Deployment'
+});
+```
+
 ## Environment Setup
 
 ### Local Environment

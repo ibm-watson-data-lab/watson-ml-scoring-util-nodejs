@@ -28,18 +28,27 @@ class WatsonMLScoringEndpoint {
         }
       }
     }
+    this.fields = fields;
     this.servicePath = this.getRequiredProperty(options, 'servicePath', 'WML_SERVICE_PATH', 'https://ibm-watson-ml.mybluemix.net');
     this.username = this.getRequiredProperty(options, 'username', 'WML_USERNAME');
     this.password = this.getRequiredProperty(options, 'password', 'WML_PASSWORD');
     this.instanceId = this.getRequiredProperty(options, 'instanceId', 'WML_INSTANCE_ID');
-    this.modelId = this.getRequiredProperty(options, 'modelId', 'WML_MODEL_ID');
-    this.deploymentId = this.getRequiredProperty(options, 'deploymentId', 'WML_DEPLOYMENT_ID');
-    this.scoringUrl = `${this.servicePath}/v3/wml_instances/${this.instanceId}/published_models/${this.modelId}/deployments/${this.deploymentId}/online`
-    this.fields = fields;
+    this.modelName = this.getProperty(options, 'modelName', 'WML_MODEL_NAME');
+    this.deploymentName = this.getProperty(options, 'deploymentName', 'WML_DEPLOYMENT_NAME');
+    if (! this.modelName) {
+      this.modelId = this.getRequiredProperty(options, 'modelId', 'WML_MODEL_ID');
+      this.deploymentId = this.getRequiredProperty(options, 'deploymentId', 'WML_DEPLOYMENT_ID');
+      this.scoringUrl = `${this.servicePath}/v3/wml_instances/${this.instanceId}/published_models/${this.modelId}/deployments/${this.deploymentId}/online`
+    }
+  }
+
+  getProperty(options, optionsName, envName, defaultValue) {
+    let prop = options[optionsName] || process.env[envName] || defaultValue;
+    return prop;
   }
 
   getRequiredProperty(options, optionsName, envName, defaultValue) {
-    let prop = options[optionsName] || process.env[envName] || defaultValue;
+    let prop = this.getProperty(options, optionsName, envName, defaultValue);
     if (! prop) {
       throw `${optionsName} not specified.`;
     }
@@ -60,9 +69,87 @@ class WatsonMLScoringEndpoint {
       })
         .then((response) => {
           this.token = 'Bearer ' + response.data.token;
-          return Promise.resolve(this.token);
+          if (! this.scoringUrl && this.modelName) {
+            return this._loadModelDetailsFromName()
+              .then(() => {
+                this.scoringUrl = `${this.servicePath}/v3/wml_instances/${this.instanceId}/published_models/${this.modelId}/deployments/${this.deploymentId}/online`;
+                return Promise.resolve(this.token);
+              });
+          }
+          else {
+            return Promise.resolve(this.token);
+          }
         });
     }
+  }
+
+  _loadModelDetailsFromName() {
+    return this._loadModels(this.token)
+      .then((models) => {
+        for (var i=0; i<models.length; i++) {
+            if (models[i].entity.name === this.modelName) {
+              this.modelId = models[i].metadata.guid;
+              break;
+            }
+        };
+        if (! this.modelId) {
+          return Promise.reject(new Error(`Unable to find model '${this.modelName}'`));
+        }
+        else {
+          return this._loadDeployments(this.token, this.modelId)
+            .then((deployments) => {
+              for (var i=0; i<deployments.length; i++) {
+                if (deployments[i].entity.type.toLowerCase() === 'online') {
+                  if (this.deploymentName) {
+                    if (deployments[i].entity.name === this.deploymentName) {
+                      this.deploymentId = deployments[i].metadata.guid;
+                      break;
+                    }
+                  }
+                  else {
+                    this.deploymentId = deployments[i].metadata.guid;
+                    break;
+                  }
+                }
+              };
+              if (! this.deploymentId) {
+                let deploymentNameText = this.deploymentName ? `'${this.deploymentName}' ` : '';
+                return Promise.reject(new Error(`Unable to find deployment ${deploymentNameText}for model '${this.modelName}'; modelId=${this.modelId}`));
+              }
+              else {
+                return Promise.resolve();
+              }
+            });
+        }
+      });
+  }
+
+  _loadDeployments(token, modelId) {
+    let url = `${this.servicePath}/v3/wml_instances/${this.instanceId}/published_models/${modelId}/deployments`    
+    return axios({
+      method: 'GET',
+      url: url,
+      headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
+      return Promise.resolve(response.data.resources)
+    });
+  }
+
+  _loadModels(token) {
+    let url = `${this.servicePath}/v3/wml_instances/${this.instanceId}/published_models`    
+    return axios({
+      method: 'GET',
+      url: url,
+      headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
+      return Promise.resolve(response.data.resources)
+    });
   }
 
   score(values) {
@@ -74,10 +161,10 @@ class WatsonMLScoringEndpoint {
 
   scoreMulti(valuesArray) {
     this.tokenFailures = 0;
-    return this.scoreMultiInternal(valuesArray, 0);
+    return this._scoreMulti(valuesArray, 0);
   }
 
-  scoreMultiInternal(valuesArray, attempt) {
+  _scoreMulti(valuesArray, attempt) {
     return this.getWatsonMLAccessToken()
       .then((token) => {
         return axios({
@@ -122,7 +209,7 @@ class WatsonMLScoringEndpoint {
           else {
             console.log('Token failure; attempting to retrieve new token...');
             this.token = null;
-            return this.scoreMultiInternal(valuesArray, attempt + 1);
+            return this._scoreMulti(valuesArray, attempt + 1);
           }
         }
         else {
