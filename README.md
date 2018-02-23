@@ -74,8 +74,7 @@ let endpoint = new WatsonMLScoringEndpoint(features, {
 });
 ```
 
-You can pass in a model name and, optionally, a deployment name in place of modelId and deploymentId.
-The utility will query your Watson ML service for the first model that matches the name and the first deployment (that matches the deployment name if speficied):
+*New*: You can pass in a Model Name and, optionally, a Deployment Name in place of Model ID and Deployment ID. The utility will query your Watson ML service for the first model that matches the name and the first deployment (that matches the deployment name if speficied):
 
 ```javascript
 let endpoint = new WatsonMLScoringEndpoint(features, {
