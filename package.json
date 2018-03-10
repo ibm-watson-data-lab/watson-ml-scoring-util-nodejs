@@ -1,6 +1,6 @@
 {
   "name": "watson-ml-scoring-util",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A simple Node.js wrapper for Watson ML model scoring",
   "main": "./src/index.js",
   "scripts": {
@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/ibm-watson-data-lab/watson-ml-scoring-util-nodejs#readme",
   "dependencies": {
-    "axios": "^0.17.1",
-    "dotenv": "^4.0.0"
+    "watson-ml-model-utils": "0.0.1"
   }
 }
