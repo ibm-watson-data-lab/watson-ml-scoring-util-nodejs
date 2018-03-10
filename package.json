@@ -25,6 +25,6 @@
   },
   "homepage": "https://github.com/ibm-watson-data-lab/watson-ml-scoring-util-nodejs#readme",
   "dependencies": {
-    "watson-ml-model-utils": "0.0.1"
+    "watson-ml-model-utils": "0.0.2"
   }
 }
